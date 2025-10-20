@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 def login_screen(manager: ScheduleManager):
     """Login screen for staff/admin authentication."""
-    st.title("🎼 Music School Management System (MSMS) - Login")
+    st.title("Astar Education (Internal Management System) - Login")
 
     #Using form so that we can login in with enter key
     with st.form("login_form"):
@@ -29,9 +29,9 @@ def login_screen(manager: ScheduleManager):
 
     if login_btn:
         # Try staff login
-        if manager.sign_in_staff(username, password):
+        if manager.sign_in_teacher(username, password):
             st.session_state.is_authenticated = True
-            st.session_state.role = "staff"
+            st.session_state.role = "teacher"
             st.session_state.username = username
             st.success(f"✅ Logged in as Staff: {username}")
             st.rerun()
@@ -53,8 +53,8 @@ def launch():
     """Sets up the main Streamlit application window and navigation."""
     st.set_page_config(
         layout="wide",
-        page_title="Music School Management System",
-        page_icon="🎵"
+        page_title="Astar Education",
+        page_icon="⭐"
     )
 
     if "manager" not in st.session_state:
@@ -70,61 +70,101 @@ def launch():
     if not st.session_state.is_authenticated:
         login_screen(manager)
         return
+    
+    if st.session_state.role == "admin":
 
-    # If logged in then show sidebar and pages
-    st.sidebar.title(f"📌 Navigation ({st.session_state.role.upper()})")
-    st.sidebar.write(f"👤 {st.session_state.username}")
-    if st.sidebar.button("Logout"):
-        st.session_state.is_authenticated = False
-        st.session_state.role = None
-        st.session_state.username = None
-        st.rerun()
+        # If logged in then show sidebar and pages
+        st.sidebar.title(f"📌 Navigation ({st.session_state.role.upper()})")
+        st.sidebar.write(f"👤 {st.session_state.username}")
+        if st.sidebar.button("Logout"):
+            st.session_state.is_authenticated = False
+            st.session_state.role = None
+            st.session_state.username = None
+            st.rerun()
 
-    # Sidebar menu
-    page = st.sidebar.radio(
-        "Go to",
-        [
-            "Student Management",
-            "Teacher Management",
-            "Course Management",
-            "Instrument Management",
-            "Daily Roster",
-            "Admin Management",
-            "Staff Management",
-            "Payments"
-        ],
-    )
+        # Sidebar menu
+        page = st.sidebar.radio(
+            "Go to",
+            [
+                "Student Management",
+                "Teacher Management",
+                "Course Management",
+                "Instrument Management",
+                "Daily Roster",
+                "Admin Management",
+                "Staff Management",
+                "Payments"
+            ],
+        )
 
-    # Route to correct page
-    if page == "Student Management":
-        show_student_management_page(manager)
+        # Route to correct page
+        if page == "Student Management":
+            show_student_management_page(manager)
 
-    elif page == "Teacher Management":
-        show_teacher_management_page(manager)
+        elif page == "Teacher Management":
+            show_teacher_management_page(manager)
 
-    elif page == "Course Management":
-        show_course_management_page(manager)
+        elif page == "Course Management":
+            show_course_management_page(manager)
 
-    elif page == "Instrument Management":
-        show_instrument_management_page(manager)
+        elif page == "Instrument Management":
+            show_instrument_management_page(manager)
 
-    elif page == "Daily Roster":
-        show_roster_page(manager)
+        elif page == "Daily Roster":
+            show_roster_page(manager)
 
-    elif page == "Admin Management":
-        if st.session_state.role == "admin":
+        elif page == "Admin Management":
             show_admin_management_page(manager)
-        else:
-            st.error("❌ Access denied. Admins only.")
 
-    elif page == "Staff Management":
-        if st.session_state.role == "admin":
+        elif page == "Staff Management":
             show_staff_management_page(manager)
-        else:
-            st.error("❌ Access denied. Admins only.")  
 
-    elif page == "Payments":
-        if st.session_state.role == "admin":
+        elif page == "Payments":
             show_finance_page(manager)
-        else:
-            st.error("❌ Access denied. Admins only.")
+    
+    elif st.session_state.role == "teacher":
+        
+        # If logged in then show sidebar and pages
+        st.sidebar.title(f"📌 Navigation ({st.session_state.role.upper()})")
+        st.sidebar.write(f"👤 {st.session_state.username}")
+        if st.sidebar.button("Logout"):
+            st.session_state.is_authenticated = False
+            st.session_state.role = None
+            st.session_state.username = None
+            st.rerun()
+
+        # Sidebar menu
+        page = st.sidebar.radio(
+            "Go to",
+            [
+                "Student Management",
+                "Teacher Management",
+                "Course Management",
+                "Instrument Management",
+                "Daily Roster",
+                "Admin Management",
+                "Payments"
+            ],
+        )
+
+        # Route to correct page
+        if page == "Student Management":
+            show_student_management_page(manager)
+
+        elif page == "Teacher Management":
+            show_teacher_management_page(manager)
+
+        elif page == "Course Management":
+            show_course_management_page(manager)
+
+        elif page == "Instrument Management":
+            show_instrument_management_page(manager)
+
+        elif page == "Daily Roster":
+            show_roster_page(manager)
+
+        elif page == "Admin Management":
+            show_admin_management_page(manager)
+
+        elif page == "Payments":
+            show_finance_page(manager)

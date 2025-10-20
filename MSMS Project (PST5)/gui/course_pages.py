@@ -21,8 +21,8 @@ def show_course_management_page(manager):
     # --- Add Course ---
     st.subheader("Create New Course")
     with st.form("add_course_form"):
-        name = st.text_input("Course Name")
-        instrument = st.text_input("Instrument")
+        name = st.text_input("Examination Body", ["SPM", "IGCSE", "EDEXCEL", "UEC"])
+        instrument = st.text_input("Subject")
         teacher_ids = {t.name: t.id for t in manager.teachers}
         teacher_name = st.selectbox("Assign Teacher", teacher_ids.keys()) if teacher_ids else None
         submitted = st.form_submit_button("Add Course")
@@ -31,16 +31,15 @@ def show_course_management_page(manager):
             st.success(f"Course {name} added!")
 
     # --- Add Lesson to Course ---
-    st.subheader("Add Lesson to Course")
+    st.subheader("Add Classes")
     course_ids = {c.name: c.id for c in manager.courses}
     if course_ids:
         selected_course = st.selectbox(
             "Select Course", course_ids.keys(), key="lesson_course_select"
         )
-        title = st.text_input("Lesson Title")
         day = st.selectbox("Day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], key="lesson_day_select")
         time = st.text_input("Start Time (e.g. 15:00)")
-        duration = st.number_input("Duration (minutes)", min_value=15, step=15, key="lesson_duration")
+        duration = st.number_input("Duration (minutes)", min_value=60, step=15, key="lesson_duration")
         if st.button("Add Lesson"):
             manager.add_lesson_to_course(course_ids[selected_course], title, day, time, duration)
             st.success(f"Lesson '{title}' added!")

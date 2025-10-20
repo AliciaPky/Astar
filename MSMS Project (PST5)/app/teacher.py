@@ -3,7 +3,7 @@ from app.user import User
 
 class TeacherUser(User):
     """Represents a teacher, extending the User class with a speciality."""
-    def __init__(self, id, name, speciality):
+    def __init__(self, id, name, speciality, username, password):
         """
         Initializes a TeacherUser object.
 
@@ -15,6 +15,8 @@ class TeacherUser(User):
         super().__init__(id, name)
         self.id = id
         self.speciality = speciality
+        self.username = username
+        self.password = password
         
     def display_info(self):
         """
@@ -24,10 +26,14 @@ class TeacherUser(User):
         - str: Basic user info + speciality.
         """
         return f"{super().display_info()}, Speciality: {self.speciality}"
+    
+    def authenticate(self, input_name, input_password):
+        """Authenticates the staff member by comparing the input credentials."""
+        return self.name == input_name and self.password == input_password
 
 class Course:
     """Represents a single course offered by the school, linked to a teacher."""
-    def __init__(self, id, name, instrument, teacher_id, enrolled_student_ids=None, lessons = None):
+    def __init__(self, id, exam_body, subject, teacher_id, enrolled_student_ids=None, lessons = None):
         """
         Initializes a Course object.
 
@@ -40,9 +46,9 @@ class Course:
         - lessons (list[dict], optional): List of lesson dictionaries associated with the course.
         """
         self.id = id
-        self.name = name
-        self.instrument = instrument
-        self.teacher_id = teacher_id
+        self.exam_body = exam_body          # e.g., "SPM", "IGCSE", "UPSR"
+        self.subject = subject              # e.g., "Mathematics"
+        self.teacher_id = teacher_id        # Linked teacher
         # TODO: Initialize two empty lists: 'enrolled_student_ids' and 'lessons'.
         self.enrolled_student_ids = enrolled_student_ids if enrolled_student_ids is not None else []
         self.lessons = lessons if lessons is not None else []

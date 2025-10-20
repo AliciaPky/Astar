@@ -4900,3 +4900,13 @@
 [2025-10-19 23:11:03] [ADD_ADMIN] Admin created:admin
 [2025-10-19 23:11:28] [LOGIN_FAIL] Invalid staff login for admin
 [2025-10-19 23:11:28] [LOGIN] Admin admin signed in
+[2025-10-20 10:39:07] [LOAD] Loaded data from data/msms.json
+[2025-10-20 10:39:07] [SAVE] Data saved to data/msms.json
+[2025-10-20 10:39:07] [ADD_ADMIN] Admin created:admin
+[2025-10-20 10:39:11] [LOAD] Loaded data from data/msms.json
+[2025-10-20 10:39:11] [SAVE] Data saved to data/msms.json
+[2025-10-20 10:39:11] [ADD_ADMIN] Admin created:admin
+[2025-10-20 10:57:37] [LOGIN_FAIL] Invalid staff login for admin
+[2025-10-20 10:57:37] [LOGIN_FAIL] Invalid admin login for admin
+[2025-10-20 10:57:41] [LOGIN_FAIL] Invalid staff login for admin
+[2025-10-20 10:57:41] [LOGIN] Admin admin signed in
